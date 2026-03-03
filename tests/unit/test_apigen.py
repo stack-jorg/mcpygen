@@ -95,6 +95,33 @@ class TestGenerateFunctionDefinition:
         code = generate_function_definition("tool", "", structured_output=False)
         _assert_valid_python(code)
 
+    def test_tool_name_uses_double_quotes(self):
+        code = generate_function_definition("my_tool", "desc", structured_output=False)
+        assert 'tool_name="my_tool"' in code
+
+    def test_docstring_uses_triple_double_quotes(self):
+        code = generate_function_definition("tool", "A simple tool.", structured_output=False)
+        assert '"""A simple tool.' in code
+
+    def test_multiline_description_indentation(self):
+        """Continuation lines of a multiline description must be indented."""
+        desc = "First line.\n\nSecond paragraph.\nThird line."
+        code = generate_function_definition("tool", desc, structured_output=False)
+        _assert_valid_python(code)
+        assert '"""First line.\n\n    Second paragraph.\n    Third line.\n    """' in code
+
+    def test_description_ending_with_quote(self):
+        """Description ending with `"` must not break docstring."""
+        code = generate_function_definition("tool", 'ends with "', structured_output=False)
+        tree = _assert_valid_python(code)
+        assert _count_import_nodes(tree) == 1
+
+    def test_description_ending_with_backslash(self):
+        """Description ending with `\\` must not escape closing quote."""
+        code = generate_function_definition("tool", "ends with \\", structured_output=False)
+        tree = _assert_valid_python(code)
+        assert _count_import_nodes(tree) == 1
+
 
 class TestGenerateInitDefinition:
     """Tests for generate_init_definition -- injection safety."""

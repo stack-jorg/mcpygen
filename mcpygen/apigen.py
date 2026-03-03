@@ -30,9 +30,20 @@ CLIENT = ToolRunner(
 """
 
 
+def _safe_docstring(description: str) -> str:
+    safe = description.replace("\x00", "").replace("\\", "\\\\").replace('"""', '""\\"')
+    lines = safe.split("\n")
+    indented = (
+        lines[0] + "\n" + "\n".join("    " + line if line else line for line in lines[1:])
+        if len(lines) > 1
+        else lines[0]
+    )
+    return f'"""{indented}\n    """'
+
+
 def generate_function_definition(original_name: str, description: str, structured_output: bool) -> str:
-    name = repr(original_name)
-    desc = repr(description)
+    name = json.dumps(original_name)
+    desc = _safe_docstring(description)
     if structured_output:
         return f"""\
 from . import CLIENT
