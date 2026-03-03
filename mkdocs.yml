@@ -1,0 +1,102 @@
+site_name: mcpy
+site_description: MCP tooling infrastructure
+site_url: https://gradion-ai.github.io/mcpy/
+
+repo_name: gradion-ai/mcpy
+repo_url: https://github.com/gradion-ai/mcpy
+
+copyright: Copyright &copy; 2025-2026 Gradion AI
+
+theme:
+  name: material
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    scheme: slate
+    primary: custom
+    accent: custom
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.preview
+    - navigation.instant.progress
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - toc.follow
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+
+plugins:
+  - search
+  - llmstxt:
+      markdown_description: |
+        mcpy is a Python library for MCP tooling infrastructure. It provides a generic MCP client,
+        typed Python API code generation from MCP server schemas, an HTTP tool server with approval
+        workflow, and CLI tools.
+
+        The library generates typed Python tool APIs from MCP server tool schemas, supporting both
+        local stdio and remote HTTP servers. Tool execution is managed by a ToolServer that can
+        enforce approval workflows via WebSocket-based approval channels.
+      full_output: llms-full.txt
+      sections:
+        User Guide:
+          - index.md: Project overview and capabilities
+          - installation.md: Installation and setup instructions
+          - quickstart.md: Getting started guide
+          - client.md: MCPClient usage
+          - apigen.md: Generating typed Python API from MCP server schemas
+          - toolserver.md: ToolServer and approval workflow
+          - cli.md: CLI reference
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [mcpy]
+          options:
+            show_root_heading: true
+            show_source: false
+            show_signature_annotations: true
+            signature_crossrefs: true
+            separate_signature: true
+            merge_init_into_class: true
+            extensions:
+              - griffe_pydantic
+          inventories:
+            - url: https://docs.python.org/3/objects.inv
+              domains: [py, std]
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      dedent_subsections: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - User Guide:
+    - Overview: index.md
+    - Installation: installation.md
+    - Quickstart: quickstart.md
+    - MCPClient: client.md
+    - API generation: apigen.md
+    - ToolServer: toolserver.md
+    - CLI: cli.md
+    - LLM readable:
+      - llms.txt: llms.txt
+      - llms-full.txt: llms-full.txt
