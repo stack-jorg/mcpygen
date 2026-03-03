@@ -10,8 +10,8 @@ import uvicorn.config
 from fastapi import FastAPI, WebSocket
 from pydantic import BaseModel
 
-from mcpy.client import MCPClient
-from mcpy.tool_exec.approval.server import ApprovalChannel
+from mcpygen.client import MCPClient
+from mcpygen.tool_exec.approval.server import ApprovalChannel
 
 
 class ToolCall(BaseModel):
@@ -33,7 +33,7 @@ class ToolServer:
     - `PUT /reset`: Closes all started MCP servers
     - `POST /run`: Executes an MCP tool (with optional approval)
     - `WS /approval`: WebSocket endpoint for
-        [`ApprovalClient`][mcpy.tool_exec.approval.client.ApprovalClient] connections
+        [`ApprovalClient`][mcpygen.tool_exec.approval.client.ApprovalClient] connections
 
     Example:
         ```python
@@ -115,7 +115,10 @@ class ToolServer:
     async def run(self, call: ToolCall) -> dict[str, Any] | str | None:
         try:
             if not await self._approval_channel.request(call.server_name, call.tool_name, call.tool_args):
-                return {"error": f"Approval request for {call.server_name}.{call.tool_name} rejected", "type": "rejected"}
+                return {
+                    "error": f"Approval request for {call.server_name}.{call.tool_name} rejected",
+                    "type": "rejected",
+                }
         except asyncio.TimeoutError:
             return {"error": f"Approval request for {call.server_name}.{call.tool_name} expired", "type": "timeout"}
         except Exception as e:

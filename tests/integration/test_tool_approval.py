@@ -5,8 +5,8 @@ import pytest_asyncio
 import uvicorn
 from fastapi import FastAPI
 
-from mcpy.tool_exec.approval.client import ApprovalClient, ApprovalRequest
-from mcpy.tool_exec.approval.server import ApprovalChannel
+from mcpygen.tool_exec.approval.client import ApprovalClient, ApprovalRequest
+from mcpygen.tool_exec.approval.server import ApprovalChannel
 
 HOST = "localhost"
 PORT = 8901

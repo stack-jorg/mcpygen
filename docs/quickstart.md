@@ -1,11 +1,21 @@
 # Quickstart
 
+## How it works
+
+mcpygen has three parts:
+
+1. **Generate**: connect to an MCP server, discover its tools, and produce a typed Python package with `Params` models and `run()` functions.
+2. **Serve**: a local tool server manages stdio MCP server processes and proxies remote HTTP/SSE MCP servers.
+3. **Call**: generated `run()` functions send requests to the tool server, which delegates to the actual MCP server and returns results.
+
+The tool server creates and connects to MCP servers on demand and keeps them running for subsequent calls.
+
 ## Generate a typed tool API
 
 ```python
 from pathlib import Path
 
-from mcpy import generate_mcp_sources
+from mcpygen import generate_mcp_sources
 
 server_params = {
     "command": "uvx",
@@ -17,30 +27,43 @@ await generate_mcp_sources("fetch_mcp", server_params, Path("mcptools"))
 
 This generates a Python package under `mcptools/fetch_mcp/` with one module per tool, each containing a `Params` class and a `run()` function.
 
-## Execute a tool
+## Start a tool server
+
+A running [tool server](toolserver.md) is required before calling the generated tool APIs.
 
 ```python
-from mcpy import ToolRunner
+from mcpygen import ToolServer
 
-runner = ToolRunner(
-    server_name="fetch_mcp",
-    server_params={"command": "uvx", "args": ["mcp-server-fetch"]},
-)
-
-result = await runner.run("fetch", {"url": "https://example.com"})
-```
-
-## Run a ToolServer
-
-```python
-from mcpy import ToolServer
-
-async with ToolServer(port=8900) as server:
+async with ToolServer() as server:
     await server.join()
 ```
 
 Or from the command line:
 
 ```bash
-mcpy toolserver --port 8900
+mcpygen toolserver
+```
+
+## Use the generated API
+
+With a tool server running, call the generated `run()` function:
+
+```python
+from mcptools.fetch_mcp.fetch import Params, run
+
+result = run(Params(url="https://example.com"))
+```
+
+## Custom tool server port
+
+By default, the tool server listens on port 8900. To use a different port:
+
+```bash
+mcpygen toolserver --port 9000
+```
+
+Set the `TOOL_SERVER_PORT` environment variable so the generated APIs connect to the same port:
+
+```bash
+export TOOL_SERVER_PORT=9000
 ```

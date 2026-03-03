@@ -6,10 +6,10 @@ import pytest
 import pytest_asyncio
 from pydantic import BaseModel
 
-from mcpy.tool_exec.approval.client import ApprovalClient, ApprovalRequest
-from mcpy.tool_exec.client import ApprovalRejectedError, ApprovalTimeoutError, ToolRunner, ToolRunnerError
-from mcpy.tool_exec.server import ToolServer
-from mcpy.utils import arun
+from mcpygen.tool_exec.approval.client import ApprovalClient, ApprovalRequest
+from mcpygen.tool_exec.client import ApprovalRejectedError, ApprovalTimeoutError, ToolRunner, ToolRunnerError
+from mcpygen.tool_exec.server import ToolServer
+from mcpygen.utils import arun
 
 RunToolFunc = Callable[[ToolRunner, str, dict[str, Any]], Awaitable[dict[str, Any] | str | None]]
 

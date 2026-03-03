@@ -2,40 +2,40 @@
 
 Based on the spec at `../ipybox/SPEC.md`.
 
-## Phase 1: Create mcpy project
+## Phase 1: Create mcpygen project
 
 ### 1.1 Project initialization
-- `uv init` at `../mcpy`
+- `uv init` at `../mcpygen`
 - `pyproject.toml` with dependencies: aiofiles, aiohttp, datamodel-code-generator, fastapi, mcp, requests, uvicorn, websockets, wsproto
 - Python 3.11+, Apache-2.0 license
 - hatchling build system with uv-dynamic-versioning
 
 ### 1.2 Extract source modules
-File mappings (ipybox -> mcpy):
-- `ipybox/mcp_client.py` -> `mcpy/client.py`
-- `ipybox/mcp_apigen.py` -> `mcpy/apigen.py`
-- `ipybox/vars.py` -> `mcpy/vars.py`
-- `ipybox/tool_exec/server.py` -> `mcpy/tool_exec/server.py`
-- `ipybox/tool_exec/client.py` -> `mcpy/tool_exec/client.py`
-- `ipybox/tool_exec/approval/server.py` -> `mcpy/tool_exec/approval/server.py`
-- `ipybox/tool_exec/approval/client.py` -> `mcpy/tool_exec/approval/client.py`
+File mappings (ipybox -> mcpygen):
+- `ipybox/mcp_client.py` -> `mcpygen/client.py`
+- `ipybox/mcp_apigen.py` -> `mcpygen/apigen.py`
+- `ipybox/vars.py` -> `mcpygen/vars.py`
+- `ipybox/tool_exec/server.py` -> `mcpygen/tool_exec/server.py`
+- `ipybox/tool_exec/client.py` -> `mcpygen/tool_exec/client.py`
+- `ipybox/tool_exec/approval/server.py` -> `mcpygen/tool_exec/approval/server.py`
+- `ipybox/tool_exec/approval/client.py` -> `mcpygen/tool_exec/approval/client.py`
 
-All internal imports updated from `ipybox.*` to `mcpy.*`.
+All internal imports updated from `ipybox.*` to `mcpygen.*`.
 
 ### 1.3 Add typed approval errors
-- `ApprovalRejectedError(ToolRunnerError)` in `mcpy/tool_exec/client.py`
-- `ApprovalTimeoutError(ToolRunnerError)` in `mcpy/tool_exec/client.py`
+- `ApprovalRejectedError(ToolRunnerError)` in `mcpygen/tool_exec/client.py`
+- `ApprovalTimeoutError(ToolRunnerError)` in `mcpygen/tool_exec/client.py`
 - ToolServer returns `{"error": "...", "type": "rejected"|"timeout"}` in error responses
 - ToolRunner parses `type` field via `_make_error()` using `match`/`case`
 
 ### 1.4 Add CLI entry point
-- `mcpy/cli.py` with `apigen` and `toolserver` subcommands
-- Registered as `mcpy = "mcpy.cli:main"` console script
+- `mcpygen/cli.py` with `apigen` and `toolserver` subcommands
+- Registered as `mcpygen = "mcpygen.cli:main"` console script
 
 ### 1.5 Add `__init__.py` re-exports
-- `mcpy/__init__.py`: MCPClient, generate_mcp_sources, ToolServer, ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError, ApprovalClient, ApprovalRequest
-- `mcpy/tool_exec/__init__.py`: ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError
-- `mcpy/utils.py`: `arun()` helper
+- `mcpygen/__init__.py`: MCPClient, generate_mcp_sources, ToolServer, ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError, ApprovalClient, ApprovalRequest
+- `mcpygen/tool_exec/__init__.py`: ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError
+- `mcpygen/utils.py`: `arun()` helper
 
 ### 1.6 Extract tests
 - `tests/unit/test_apigen.py`: injection safety tests
@@ -60,21 +60,21 @@ All internal imports updated from `ipybox.*` to `mcpy.*`.
 - `docs/internal/architecture.md`, `docs/internal/testing.md`
 - `docs/stylesheets/extra.css`
 
-### 1.9 Verify mcpy tests pass
+### 1.9 Verify mcpygen tests pass
 - All unit tests (42)
 - All integration tests (74)
 
-## Phase 2: Update ipybox to depend on mcpy
+## Phase 2: Update ipybox to depend on mcpygen
 
-### 2.1 Add mcpy dependency
-- Add `mcpy` to ipybox's `pyproject.toml` dependencies
-- Add `[tool.uv.sources]` with path dependency to `../mcpy`
-- Remove dependencies now provided transitively by mcpy (aiofiles, aiohttp, datamodel-code-generator, fastapi, mcp, requests, uvicorn, websockets, wsproto)
+### 2.1 Add mcpygen dependency
+- Add `mcpygen` to ipybox's `pyproject.toml` dependencies
+- Add `[tool.uv.sources]` with path dependency to `../mcpygen`
+- Remove dependencies now provided transitively by mcpygen (aiofiles, aiohttp, datamodel-code-generator, fastapi, mcp, requests, uvicorn, websockets, wsproto)
 
 ### 2.2 Update imports in source files
-- `ipybox/__init__.py`: re-export `generate_mcp_sources` and `ApprovalRequest` from mcpy
-- `ipybox/code_exec.py`: import ApprovalClient, ApprovalRequest, ToolServer, reset from mcpy
-- `ipybox/mcp_server.py`: import ToolServer, generate_mcp_sources, reset from mcpy
+- `ipybox/__init__.py`: re-export `generate_mcp_sources` and `ApprovalRequest` from mcpygen
+- `ipybox/code_exec.py`: import ApprovalClient, ApprovalRequest, ToolServer, reset from mcpygen
+- `ipybox/mcp_server.py`: import ToolServer, generate_mcp_sources, reset from mcpygen
 - Update mkdocstrings cross-references in docstrings
 
 ### 2.3 Remove extracted source files
@@ -88,8 +88,8 @@ All internal imports updated from `ipybox.*` to `mcpy.*`.
 - Simplify `tests/integration/conftest.py` (remove unused fixtures)
 
 ### 2.5 Update docs
-- `docs/api/tool_executor.md`: update mkdocstrings references to mcpy module paths
-- `docs/internal/architecture.md`: document mcpy dependency, update module list
+- `docs/api/tool_executor.md`: update mkdocstrings references to mcpygen module paths
+- `docs/internal/architecture.md`: document mcpygen dependency, update module list
 - `docs/internal/testing.md`: remove references to moved tests
 - Update generated code references (`docs/generated/`)
 

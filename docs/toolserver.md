@@ -1,75 +1,32 @@
-# ToolServer and approval workflow
+# Tool server
 
-## ToolServer
-
-[`ToolServer`][mcpy.tool_exec.server.ToolServer] is an HTTP server that manages MCP servers and executes their tools. MCP servers are started on demand and cached for subsequent calls.
+[`ToolServer`][mcpygen.tool_exec.server.ToolServer] is a local server that manages stdio MCP servers and connects to remote streamable HTTP or SSE servers. MCP servers are started on demand and cached for subsequent calls. The generated [tool APIs](apigen.md) delegate tool calls to the tool server for execution.
 
 ```python
-from mcpy import ToolServer
+from mcpygen import ToolServer
 
 async with ToolServer(port=8900) as server:
     await server.join()
 ```
 
-### Endpoints
-
-- `GET /status`: Health check
-- `PUT /reset`: Close all managed MCP servers
-- `POST /run`: Execute an MCP tool
-- `WS /approval`: WebSocket for approval clients
-
 ## ToolRunner
 
-[`ToolRunner`][mcpy.tool_exec.client.ToolRunner] is the client for executing MCP tools on a ToolServer.
+The generated tool APIs use [`ToolRunner`][mcpygen.tool_exec.client.ToolRunner] internally to communicate with the tool server. `ToolRunner` sends HTTP requests to the tool server, which executes the MCP tool and returns the result.
 
 ```python
-from mcpy import ToolRunner
+from mcpygen import ToolRunner
 
 runner = ToolRunner(
-    server_name="fetch",
-    server_params={"command": "uvx", "args": ["mcp-server-fetch"]},
-    port=8900,
+    server_name="brave_search",
+    server_params={
+        "command": "npx",
+        "args": ["-y", "@brave/brave-search-mcp-server"],
+        "env": {"BRAVE_API_KEY": "${BRAVE_API_KEY}"},
+    },
 )
 
-# Async
-result = await runner.run("fetch", {"url": "https://example.com"})
-
-# Sync
-result = runner.run_sync("fetch", {"url": "https://example.com"})
+result = runner.run_sync(
+    tool_name="brave_web_search",
+    tool_args={"query": "MCP"},
+)
 ```
-
-## Approval workflow
-
-When `approval_required=True`, each tool call requires approval via WebSocket before execution.
-
-```python
-from mcpy import ApprovalClient, ApprovalRequest, ToolServer
-
-async def on_approval(request: ApprovalRequest):
-    print(f"Tool call: {request}")
-    await request.accept()  # or request.reject()
-
-async with ToolServer(approval_required=True) as server:
-    async with ApprovalClient(callback=on_approval):
-        # Tool calls now require approval
-        ...
-```
-
-### Typed approval errors
-
-ToolRunner raises specific error types for approval failures:
-
-- [`ApprovalRejectedError`][mcpy.tool_exec.client.ApprovalRejectedError]: The tool call was rejected
-- [`ApprovalTimeoutError`][mcpy.tool_exec.client.ApprovalTimeoutError]: The approval request timed out
-
-Both inherit from [`ToolRunnerError`][mcpy.tool_exec.client.ToolRunnerError].
-
-## API Reference
-
-::: mcpy.tool_exec.server.ToolServer
-
-::: mcpy.tool_exec.client.ToolRunner
-
-::: mcpy.tool_exec.approval.client.ApprovalClient
-
-::: mcpy.tool_exec.approval.client.ApprovalRequest

@@ -1,9 +1,9 @@
-site_name: mcpy
+site_name: mcpygen
 site_description: MCP tooling infrastructure
-site_url: https://gradion-ai.github.io/mcpy/
+site_url: https://gradion-ai.github.io/mcpygen/
 
-repo_name: gradion-ai/mcpy
-repo_url: https://github.com/gradion-ai/mcpy
+repo_name: gradion-ai/mcpygen
+repo_url: https://github.com/gradion-ai/mcpygen
 
 copyright: Copyright &copy; 2025-2026 Gradion AI
 
@@ -35,28 +35,30 @@ plugins:
   - search
   - llmstxt:
       markdown_description: |
-        mcpy is a Python library for MCP tooling infrastructure. It provides a generic MCP client,
-        typed Python API code generation from MCP server schemas, an HTTP tool server with approval
-        workflow, and CLI tools.
-
-        The library generates typed Python tool APIs from MCP server tool schemas, supporting both
-        local stdio and remote HTTP servers. Tool execution is managed by a ToolServer that can
-        enforce approval workflows via WebSocket-based approval channels.
+        mcpygen generates typed Python APIs from MCP server tool schemas. Tool calls made through
+        the generated APIs are executed on a local tool server that manages stdio MCP servers and
+        connects to remote streamable HTTP or SSE servers, with optional approval workflows via
+        WebSocket-based approval channels.
       full_output: llms-full.txt
       sections:
         User Guide:
           - index.md: Project overview and capabilities
           - installation.md: Installation and setup instructions
           - quickstart.md: Getting started guide
-          - client.md: MCPClient usage
-          - apigen.md: Generating typed Python API from MCP server schemas
-          - toolserver.md: ToolServer and approval workflow
+          - apigen.md: Generating typed Python APIs from MCP server schemas
+          - toolserver.md: ToolServer
+          - approval.md: Approval workflow
           - cli.md: CLI reference
+        API Reference:
+          - api/apigen.md: API generation
+          - api/toolserver.md: ToolServer
+          - api/toolrunner.md: ToolRunner
+          - api/approval.md: Approval workflow
   - mkdocstrings:
       default_handler: python
       handlers:
         python:
-          paths: [mcpy]
+          paths: [mcpygen]
           options:
             show_root_heading: true
             show_source: false
@@ -93,10 +95,15 @@ nav:
     - Overview: index.md
     - Installation: installation.md
     - Quickstart: quickstart.md
-    - MCPClient: client.md
     - API generation: apigen.md
-    - ToolServer: toolserver.md
+    - Tool server: toolserver.md
+    - Approval: approval.md
     - CLI: cli.md
     - LLM readable:
       - llms.txt: llms.txt
       - llms-full.txt: llms-full.txt
+  - API Reference:
+    - API generation: api/apigen.md
+    - ToolServer: api/toolserver.md
+    - ToolRunner: api/toolrunner.md
+    - Approval: api/approval.md

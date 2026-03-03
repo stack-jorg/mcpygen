@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from mcpy.tool_exec.approval.client import ApprovalRequest
+from mcpygen.tool_exec.approval.client import ApprovalRequest
 
 
 @pytest.mark.asyncio

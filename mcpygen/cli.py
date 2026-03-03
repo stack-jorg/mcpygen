@@ -1,26 +1,21 @@
 import argparse
 import asyncio
 import json
-import sys
 from pathlib import Path
 
-from mcpy.apigen import generate_mcp_sources
-from mcpy.tool_exec.server import ToolServer
+from mcpygen.apigen import generate_mcp_sources
+from mcpygen.tool_exec.server import ToolServer
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="mcpy", description="MCP tooling infrastructure")
+    parser = argparse.ArgumentParser(prog="mcpygen", description="MCP tooling infrastructure")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # apigen subcommand
     apigen_parser = subparsers.add_parser("apigen", help="Generate typed Python tool APIs from MCP server schemas")
     apigen_parser.add_argument("--server-name", required=True, help="Name for the generated package directory")
-    apigen_parser.add_argument(
-        "--server-params", required=True, help="MCP server connection parameters as JSON string"
-    )
-    apigen_parser.add_argument(
-        "--root-dir", required=True, help="Parent directory where the package will be created"
-    )
+    apigen_parser.add_argument("--server-params", required=True, help="MCP server connection parameters as JSON string")
+    apigen_parser.add_argument("--root-dir", required=True, help="Parent directory where the package will be created")
 
     # toolserver subcommand
     toolserver_parser = subparsers.add_parser("toolserver", help="Run a standalone ToolServer instance")

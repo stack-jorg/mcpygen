@@ -6,7 +6,7 @@ from pydantic_core import to_jsonable_python
 
 
 class ToolRunnerError(Exception):
-    """Raised when tool execution fails on the server or when approval is rejected."""
+    """Raised when tool execution fails on the server."""
 
 
 class ApprovalRejectedError(ToolRunnerError):
@@ -18,7 +18,7 @@ class ApprovalTimeoutError(ToolRunnerError):
 
 
 class ToolRunner:
-    """Client for executing MCP tools on a [`ToolServer`][mcpy.tool_exec.server.ToolServer].
+    """Client for executing MCP tools on a [`ToolServer`][mcpygen.tool_exec.server.ToolServer].
 
     Example:
         ```python
@@ -82,7 +82,7 @@ class ToolRunner:
                 return response_json["result"]
 
     def run_sync(self, tool_name: str, tool_args: dict[str, Any]) -> dict[str, Any] | str | None:
-        """Synchronous version of [`run`][mcpy.tool_exec.client.ToolRunner.run].
+        """Synchronous version of [`run`][mcpygen.tool_exec.client.ToolRunner.run].
 
         Args:
             tool_name: Name of the tool to execute.

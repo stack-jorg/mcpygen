@@ -1,5 +1,5 @@
 [project]
-name = "mcpy"
+name = "mcpygen"
 dynamic = ["version"]
 description = "MCP tooling infrastructure: client, code generation, tool server, and approval workflow"
 authors = [
@@ -25,12 +25,15 @@ default-groups = [
     "docs",
     "dev",
 ]
+override-dependencies = [
+    "sse-starlette==3.0.3",
+]
 
 [dependency-groups]
 docs = [
     "griffe-pydantic>=1.1.8",
     "mkdocs>=1.6.1,<2",
-    "mkdocs-material>=9.5.48,<10",
+    "mkdocs-material>=9.5.48,<9.7.2",
     "mkdocstrings-python>=1.12.2,<2",
     "mkdocs-llmstxt>=0.4.0",
     "click<=8.2.1",
@@ -45,7 +48,7 @@ dev = [
 ]
 
 [project.scripts]
-mcpy = "mcpy.cli:main"
+mcpygen = "mcpygen.cli:main"
 
 [build-system]
 requires = ["hatchling", "uv-dynamic-versioning"]
@@ -60,10 +63,10 @@ pattern = "default-unprefixed"
 style = "pep440"
 
 [tool.hatch.build.targets.sdist]
-include = ["mcpy"]
+include = ["mcpygen"]
 
 [tool.hatch.build.targets.wheel]
-include = ["mcpy"]
+include = ["mcpygen"]
 
 [tool.ruff]
 line-length = 120

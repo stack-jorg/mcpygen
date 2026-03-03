@@ -13,13 +13,13 @@ from datamodel_code_generator.model import get_data_model_types
 from datamodel_code_generator.model.base import ALL_MODEL
 from datamodel_code_generator.parser.jsonschema import JsonSchemaParser
 
-from mcpy.client import MCPClient
+from mcpygen.client import MCPClient
 
 
 def generate_init_definition(server_name: str, server_params: dict[str, Any]) -> str:
     return f"""\
 import os
-from mcpy.tool_exec.client import ToolRunner
+from mcpygen.tool_exec.client import ToolRunner
 
 CLIENT = ToolRunner(
     server_name={repr(server_name)},
@@ -92,7 +92,7 @@ async def generate_mcp_sources(server_name: str, server_params: dict[str, Any], 
     invoke the tool.
 
     When calling the generated API, the corresponding tools are executed on a
-    [`ToolServer`][mcpy.tool_exec.server.ToolServer].
+    [`ToolServer`][mcpygen.tool_exec.server.ToolServer].
 
     If a directory for the server already exists under `root_dir`, it is removed
     and recreated.

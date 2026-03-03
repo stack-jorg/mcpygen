@@ -7,9 +7,9 @@ from pathlib import Path
 import pytest
 import pytest_asyncio
 
-from mcpy.apigen import generate_mcp_sources
-from mcpy.tool_exec.server import ToolServer
-from mcpy.utils import arun
+from mcpygen.apigen import generate_mcp_sources
+from mcpygen.tool_exec.server import ToolServer
+from mcpygen.utils import arun
 from tests.integration.mcp_server import STDIO_SERVER_PATH
 
 TOOL_SERVER_PORT = 8920

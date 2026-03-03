@@ -9,7 +9,7 @@ class ApprovalChannel:
     """Server-side channel for tool call approval over WebSocket.
 
     `ApprovalChannel` accepts WebSocket connections from an
-    [`ApprovalClient`][mcpy.tool_exec.approval.client.ApprovalClient], sends approval
+    [`ApprovalClient`][mcpygen.tool_exec.approval.client.ApprovalClient], sends approval
     requests via JSON-RPC, and processes approval responses.
 
     When `approval_required` is `False`, all approval requests are automatically granted.

@@ -3,15 +3,15 @@
 ## From source
 
 ```bash
-git clone https://github.com/gradion-ai/mcpy.git
-cd mcpy
+git clone https://github.com/gradion-ai/mcpygen.git
+cd mcpygen
 uv sync
 ```
 
 ## As a dependency
 
-Add mcpy to your project:
+Add mcpygen to your project:
 
 ```bash
-uv add mcpy
+uv add mcpygen
 ```

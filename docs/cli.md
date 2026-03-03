@@ -1,13 +1,13 @@
 # CLI Reference
 
-mcpy provides a command-line interface with two subcommands.
+mcpygen provides a command-line interface with two subcommands.
 
-## `mcpy apigen`
+## `mcpygen apigen`
 
 Generate typed Python tool APIs from MCP server schemas.
 
 ```bash
-mcpy apigen \
+mcpygen apigen \
     --server-name fetch_mcp \
     --server-params '{"command": "uvx", "args": ["mcp-server-fetch"]}' \
     --root-dir mcptools
@@ -21,12 +21,12 @@ mcpy apigen \
 | `--server-params` | MCP server connection parameters (JSON string) |
 | `--root-dir` | Parent directory where the package will be created |
 
-## `mcpy toolserver`
+## `mcpygen toolserver`
 
-Run a standalone ToolServer instance.
+Run a standalone tool server instance.
 
 ```bash
-mcpy toolserver --host localhost --port 8900 --log-level INFO
+mcpygen toolserver --host localhost --port 8900 --log-level INFO
 ```
 
 **Arguments:**

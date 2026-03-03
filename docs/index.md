@@ -1,11 +1,9 @@
-# mcpy
+# mcpygen
 
-mcpy is a Python library for MCP tooling infrastructure. It provides a generic MCP client, typed Python API code generation from MCP server schemas, an HTTP tool server with approval workflow, and CLI tools.
+mcpygen generates typed Python APIs from MCP server tool schemas. Tool calls made through the generated APIs are executed on a local tool server that manages MCP server connections.
 
 ## Features
 
-- **MCPClient**: Connect to MCP servers over stdio, SSE, or streamable HTTP
-- **Code generation**: Generate typed Python tool APIs with Pydantic models from MCP server schemas
-- **ToolServer**: HTTP server that manages MCP servers and executes tools with optional approval
-- **Approval workflow**: WebSocket-based approval channel for gating tool calls
-- **CLI**: Command-line tools for code generation and running a ToolServer
+- **API generation**: Generate typed Python tool APIs from MCP server schemas. Each tool becomes a module with a Pydantic `Params` model and a `run()` function. Tools that provide an output schema also get a typed `Result` model.
+- **Tool server**: Local server that manages stdio MCP servers and connects to remote streamable HTTP or SSE servers
+- **Approval workflow**: Gate tool calls with a WebSocket-based approval channel before execution

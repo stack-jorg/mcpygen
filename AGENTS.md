@@ -7,15 +7,15 @@
   - Architecture: `docs/internal/architecture.md`
   - Testing: `docs/internal/testing.md`
 - Source modules:
-  - `mcpy/client.py`: MCPClient (stdio, SSE, streamable HTTP)
-  - `mcpy/apigen.py`: MCP tool wrapper code generation
-  - `mcpy/vars.py`: variable replacement utilities
-  - `mcpy/tool_exec/server.py`: ToolServer
-  - `mcpy/tool_exec/client.py`: ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError
-  - `mcpy/tool_exec/approval/server.py`: ApprovalChannel
-  - `mcpy/tool_exec/approval/client.py`: ApprovalClient, ApprovalRequest
-  - `mcpy/cli.py`: CLI entry point (apigen, toolserver)
-  - `mcpy/utils.py`: shared utilities
+  - `mcpygen/client.py`: MCPClient (stdio, SSE, streamable HTTP)
+  - `mcpygen/apigen.py`: MCP tool wrapper code generation
+  - `mcpygen/vars.py`: variable replacement utilities
+  - `mcpygen/tool_exec/server.py`: ToolServer
+  - `mcpygen/tool_exec/client.py`: ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError
+  - `mcpygen/tool_exec/approval/server.py`: ApprovalChannel
+  - `mcpygen/tool_exec/approval/client.py`: ApprovalClient, ApprovalRequest
+  - `mcpygen/cli.py`: CLI entry point (apigen, toolserver)
+  - `mcpygen/utils.py`: shared utilities
 - Tests:
   - `tests/unit/`: unit tests
   - `tests/integration/`: integration tests

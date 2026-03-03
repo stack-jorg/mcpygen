@@ -14,10 +14,10 @@ class ApprovalRequest:
     """An MCP tool call approval request.
 
     `ApprovalRequest` instances are passed to the approval callback registered with
-    [`ApprovalClient`][mcpy.tool_exec.approval.client.ApprovalClient]. The callback
-    must call [`accept`][mcpy.tool_exec.approval.client.ApprovalRequest.accept]
-    or [`reject`][mcpy.tool_exec.approval.client.ApprovalRequest.reject] for making
-    an approval decision. Consumers can await [`response`][mcpy.tool_exec.approval.client.ApprovalRequest.response]
+    [`ApprovalClient`][mcpygen.tool_exec.approval.client.ApprovalClient]. The callback
+    must call [`accept`][mcpygen.tool_exec.approval.client.ApprovalRequest.accept]
+    or [`reject`][mcpygen.tool_exec.approval.client.ApprovalRequest.reject] for making
+    an approval decision. Consumers can await [`response`][mcpygen.tool_exec.approval.client.ApprovalRequest.response]
     to observe the decision.
 
     Example:
@@ -100,7 +100,7 @@ ApprovalCallback = Callable[[ApprovalRequest], Awaitable[None]]
 """Type alias for approval callback functions.
 
 An approval callback is an async function that receives an
-[`ApprovalRequest`][mcpy.tool_exec.approval.client.ApprovalRequest] and must call
+[`ApprovalRequest`][mcpygen.tool_exec.approval.client.ApprovalRequest] and must call
 one of its response methods (`accept()` or `reject()`) to make an approval decision.
 """
 
@@ -108,10 +108,9 @@ one of its response methods (`accept()` or `reject()`) to make an approval decis
 class ApprovalClient:
     """Client for handling tool call approval requests.
 
-    `ApprovalClient` connects to a [`ToolServer`][mcpy.tool_exec.server.ToolServer]'s
-    [`ApprovalChannel`][mcpy.tool_exec.approval.server.ApprovalChannel] and receives
-    approval requests. Each request is passed to the registered callback, which must
-    accept or reject the request.
+    `ApprovalClient` connects to a [`ToolServer`][mcpygen.tool_exec.server.ToolServer]'s
+    approval channel and receives approval requests. Each request is passed to the
+    registered callback, which must accept or reject the request.
 
     Example:
         ```python

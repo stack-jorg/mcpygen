@@ -1,24 +1,24 @@
 # Implementation State
 
-All phases complete. Both mcpy and ipybox are fully functional.
+All phases complete. Both mcpygen and ipybox are fully functional.
 
-## mcpy project
+## mcpygen project
 
 ### Source modules
 
 | Module | Origin | Notes |
 |--------|--------|-------|
-| `mcpy/__init__.py` | New | Re-exports: MCPClient, generate_mcp_sources, ToolServer, ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError, ApprovalClient, ApprovalRequest |
-| `mcpy/client.py` | `ipybox/mcp_client.py` | MCPClient (stdio, SSE, streamable HTTP) |
-| `mcpy/apigen.py` | `ipybox/mcp_apigen.py` | Code generation; generated code imports from `mcpy.tool_exec.client` |
-| `mcpy/vars.py` | `ipybox/vars.py` | Variable replacement utilities |
-| `mcpy/cli.py` | New | CLI entry point: `mcpy apigen`, `mcpy toolserver` |
-| `mcpy/utils.py` | `ipybox/utils.py` | `arun()` async helper (subset) |
-| `mcpy/tool_exec/__init__.py` | New | Re-exports typed errors and ToolRunner |
-| `mcpy/tool_exec/server.py` | `ipybox/tool_exec/server.py` | ToolServer; returns `"type": "rejected"/"timeout"` in error responses |
-| `mcpy/tool_exec/client.py` | `ipybox/tool_exec/client.py` | ToolRunner + new: ApprovalRejectedError, ApprovalTimeoutError, `_make_error()` |
-| `mcpy/tool_exec/approval/server.py` | `ipybox/tool_exec/approval/server.py` | ApprovalChannel |
-| `mcpy/tool_exec/approval/client.py` | `ipybox/tool_exec/approval/client.py` | ApprovalClient, ApprovalRequest |
+| `mcpygen/__init__.py` | New | Re-exports: MCPClient, generate_mcp_sources, ToolServer, ToolRunner, ToolRunnerError, ApprovalRejectedError, ApprovalTimeoutError, ApprovalClient, ApprovalRequest |
+| `mcpygen/client.py` | `ipybox/mcp_client.py` | MCPClient (stdio, SSE, streamable HTTP) |
+| `mcpygen/apigen.py` | `ipybox/mcp_apigen.py` | Code generation; generated code imports from `mcpygen.tool_exec.client` |
+| `mcpygen/vars.py` | `ipybox/vars.py` | Variable replacement utilities |
+| `mcpygen/cli.py` | New | CLI entry point: `mcpygen apigen`, `mcpygen toolserver` |
+| `mcpygen/utils.py` | `ipybox/utils.py` | `arun()` async helper (subset) |
+| `mcpygen/tool_exec/__init__.py` | New | Re-exports typed errors and ToolRunner |
+| `mcpygen/tool_exec/server.py` | `ipybox/tool_exec/server.py` | ToolServer; returns `"type": "rejected"/"timeout"` in error responses |
+| `mcpygen/tool_exec/client.py` | `ipybox/tool_exec/client.py` | ToolRunner + new: ApprovalRejectedError, ApprovalTimeoutError, `_make_error()` |
+| `mcpygen/tool_exec/approval/server.py` | `ipybox/tool_exec/approval/server.py` | ApprovalChannel |
+| `mcpygen/tool_exec/approval/client.py` | `ipybox/tool_exec/approval/client.py` | ApprovalClient, ApprovalRequest |
 
 ### Typed approval errors (new feature)
 
@@ -59,20 +59,20 @@ tree naturally resolves to 3.0.3 and is unaffected.
 ## ipybox changes
 
 ### Dependencies
-- Removed direct dependencies now provided by mcpy: aiofiles, aiohttp, datamodel-code-generator, fastapi, mcp, requests, uvicorn, websockets, wsproto
-- Added: `mcpy` with `[tool.uv.sources]` path dependency to `../mcpy`
+- Removed direct dependencies now provided by mcpygen: aiofiles, aiohttp, datamodel-code-generator, fastapi, mcp, requests, uvicorn, websockets, wsproto
+- Added: `mcpygen` with `[tool.uv.sources]` path dependency to `../mcpygen`
 
 ### Import updates
 
 | File | Old imports | New imports |
 |------|------------|-------------|
-| `ipybox/__init__.py` | `ipybox.mcp_apigen`, `ipybox.tool_exec.approval.client` | `mcpy` |
-| `ipybox/code_exec.py` | `ipybox.tool_exec.*` | `mcpy`, `mcpy.tool_exec.client` |
-| `ipybox/mcp_server.py` | `ipybox.mcp_apigen`, `ipybox.tool_exec.*` | `mcpy`, `mcpy.tool_exec.client` |
-| `tests/integration/test_mcp_server.py` | `ipybox.mcp_client` | `mcpy` |
-| `tests/integration/test_code_exec.py` | `ipybox.mcp_apigen` | `mcpy` |
+| `ipybox/__init__.py` | `ipybox.mcp_apigen`, `ipybox.tool_exec.approval.client` | `mcpygen` |
+| `ipybox/code_exec.py` | `ipybox.tool_exec.*` | `mcpygen`, `mcpygen.tool_exec.client` |
+| `ipybox/mcp_server.py` | `ipybox.mcp_apigen`, `ipybox.tool_exec.*` | `mcpygen`, `mcpygen.tool_exec.client` |
+| `tests/integration/test_mcp_server.py` | `ipybox.mcp_client` | `mcpygen` |
+| `tests/integration/test_code_exec.py` | `ipybox.mcp_apigen` | `mcpygen` |
 
-Docstring cross-references in `code_exec.py` updated from `ipybox.tool_exec.*`/`ipybox.mcp_apigen.*` to `mcpy.*`.
+Docstring cross-references in `code_exec.py` updated from `ipybox.tool_exec.*`/`ipybox.mcp_apigen.*` to `mcpygen.*`.
 
 ### Removed files
 
@@ -90,10 +90,10 @@ Tests (6 files):
 - `tests/integration/conftest.py`: emptied (fixtures were only used by removed tests)
 
 ### Doc updates
-- `docs/api/tool_executor.md`: mkdocstrings references updated to `mcpy.*` module paths
-- `docs/internal/architecture.md`: documents mcpy as external dependency, lists extracted modules
-- `docs/internal/testing.md`: notes that extracted tests moved to mcpy
-- `docs/generated/mcptools/github/__init__.py`: import updated to `mcpy.tool_exec.client`
+- `docs/api/tool_executor.md`: mkdocstrings references updated to `mcpygen.*` module paths
+- `docs/internal/architecture.md`: documents mcpygen as external dependency, lists extracted modules
+- `docs/internal/testing.md`: notes that extracted tests moved to mcpygen
+- `docs/generated/mcptools/github/__init__.py`: import updated to `mcpygen.tool_exec.client`
 
 ### Test results
 - **94 total** (20 unit + 74 integration), all passing

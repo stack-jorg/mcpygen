@@ -1,18 +1,18 @@
 # Architecture
 
-This page documents mcpy internal architecture for agent consumption.
+This page documents mcpygen internal architecture for agent consumption.
 
 ## Key Modules
 
-- `mcpy/client.py`: `MCPClient` - generic MCP client (stdio, SSE, streamable HTTP)
-- `mcpy/apigen.py`: `generate_mcp_sources()` - generates typed Python wrappers from MCP schemas
-- `mcpy/vars.py`: `replace_variables()` - variable substitution in config dicts
-- `mcpy/tool_exec/server.py`: `ToolServer` - FastAPI server managing MCP servers and tool calls
-- `mcpy/tool_exec/client.py`: `ToolRunner` - client for executing MCP tools on ToolServer
-- `mcpy/tool_exec/client.py`: `ApprovalRejectedError`, `ApprovalTimeoutError` - typed approval errors
-- `mcpy/tool_exec/approval/server.py`: `ApprovalChannel` - server-side approval request workflow
-- `mcpy/tool_exec/approval/client.py`: `ApprovalClient` - client-side approval handling
-- `mcpy/cli.py`: CLI entry point (`apigen`, `toolserver` subcommands)
+- `mcpygen/client.py`: `MCPClient` - generic MCP client (stdio, SSE, streamable HTTP)
+- `mcpygen/apigen.py`: `generate_mcp_sources()` - generates typed Python wrappers from MCP schemas
+- `mcpygen/vars.py`: `replace_variables()` - variable substitution in config dicts
+- `mcpygen/tool_exec/server.py`: `ToolServer` - FastAPI server managing MCP servers and tool calls
+- `mcpygen/tool_exec/client.py`: `ToolRunner` - client for executing MCP tools on ToolServer
+- `mcpygen/tool_exec/client.py`: `ApprovalRejectedError`, `ApprovalTimeoutError` - typed approval errors
+- `mcpygen/tool_exec/approval/server.py`: `ApprovalChannel` - server-side approval request workflow
+- `mcpygen/tool_exec/approval/client.py`: `ApprovalClient` - client-side approval handling
+- `mcpygen/cli.py`: CLI entry point (`apigen`, `toolserver` subcommands)
 
 ## Execution Flow
 

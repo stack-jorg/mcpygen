@@ -1,6 +1,6 @@
 import ast
 
-from mcpy.apigen import (
+from mcpygen.apigen import (
     generate_function_definition,
     generate_init_definition,
     sanitize_name,

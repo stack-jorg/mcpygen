@@ -1,4 +1,4 @@
-from mcpy.vars import replace_variables
+from mcpygen.vars import replace_variables
 
 
 class TestReplaceVariables:
