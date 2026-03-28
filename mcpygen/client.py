@@ -88,10 +88,13 @@ class MCPClient:
             url = self.server_params["url"]
             kwargs = {k: v for k, v in self.server_params.items() if k not in ["url", "type"]}
 
-            if "/mcp" in url or self.server_params.get("type") == "streamable_http":
-                return streamablehttp_client(url, **kwargs)
-            elif "/sse" in url or self.server_params.get("type") == "sse":
+            server_type = self.server_params.get("type")
+        
+            if server_type == "sse" or (not server_type and "/sse" in url):
                 return sse_client(url, **kwargs)
+            
+            if server_type == "streamable_http" or "/mcp" in url:
+                return streamablehttp_client(url, **kwargs)
             else:
                 raise ValueError(
                     f"Unable to determine MCP client type from URL: {url}. "
